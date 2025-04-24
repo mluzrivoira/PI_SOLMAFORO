@@ -1,0 +1,31 @@
+{% extends "proyectowebapp/base.html" %}
+{% load static %} <!-- importar los contenidos -->
+
+{% block content %} <!-- contenido cambiante en las distintas paginas -->
+
+<section class="page-section clearfix">
+  <div class="container">
+    <div class="intro">
+
+      <!-- Parte izquierda -->
+      <div class="intro-left">
+        <img class="intro-img img-fluid rounded" 
+             src="{% static 'proyectowebapp/img/Tabla_2-02.png' %}" alt="">
+      </div>
+
+      <!-- Parte derecha con dos imágenes: arriba y abajo -->
+      <div class="intro-right">
+        <img class="intro-img img-fluid rounded" 
+             src="{% static 'proyectowebapp/img/Tabla_03-02.png' %}" alt="">
+        <img class="intro-img img-fluid rounded" 
+             src="{% static 'proyectowebapp/img/Tabla.png' %}" alt="">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %} <!-- fin del contenido cambiante en las distintas paginas -->

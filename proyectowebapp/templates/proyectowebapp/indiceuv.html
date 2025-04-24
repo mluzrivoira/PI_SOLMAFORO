@@ -1,0 +1,21 @@
+{% extends "proyectowebapp/base.html" %}
+{% load static %} <!-- importar los contenidos -->
+
+{% block content %} <!-- contenido cambiante en las distintas paginas -->
+
+
+<section class="page-section">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <div style="width: 120%; max-width: 800px;">
+          {{ mapa|safe }}
+        </div>
+      </div>
+  
+      <div class="text-center mt-4">
+        <img src="{% static 'proyectowebapp/img/referencia.png' %}" alt="referencia" class="img-fluid" style="max-height: 180px;">
+      </div>
+    </div>
+  </section>
+
+{% endblock %} <!-- fin del contenido cambiante en las distintas paginas -->

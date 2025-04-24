@@ -1,0 +1,141 @@
+body {
+  font-family: 'Segoe UI';
+  background: linear-gradient(rgba(255, 255, 255, 0.71), rgba(255, 255, 255, 0.678)); /* color de fondo + color de degrade */
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Segoe UI';  /* letra que usan */
+}
+p {
+  line-height: 1.75; /* separacion entre parrafos para mejor lectura*/
+}
+
+
+
+.text-faded {
+  color: rgba(255, 255, 255, 0.219); /* color de la letra de pi solmaforos de la barra de abajo */
+}
+.page-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+
+
+#mainNav {
+  background-color: rgb(172, 53, 15); /* BARRA color de la barra */
+  font-family: 'Segoe UI';
+}
+#mainNav .navbar-brand {
+  color: #ffffff; /* BARRA */
+}
+#mainNav .navbar-nav .nav-item .nav-link {
+  color: rgb(255, 255, 255);  /* BARRA */
+  font-weight: 700; /* que tan negrita */
+}
+#mainNav .navbar-nav .nav-item.active .nav-link {
+  color: #ffffff; /* de que color el inicio */
+  text-decoration: underline; 
+}                 
+@media (min-width: 992px) {
+  #mainNav .navbar-nav .nav-item .nav-link {
+    font-size: 1rem; /* tamano de la letra */
+  }
+  #mainNav .navbar-nav .nav-item .nav-link:hover {
+    color: rgb(255, 255, 255); /* BARRA color cuando pasas el mouse */
+    text-decoration: underline; /* cuando lo pasas se subraya */
+  }
+  #mainNav .navbar-nav .nav-item.active .nav-link:hover {
+    color: #ffffff; /* BARRA color cuando pasas el mouse solo en inicio */
+    text-decoration: underline;
+  }
+}
+
+
+/* botones (VER) */
+.btn-xl {
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+
+
+.intro {
+  position: relative;
+}
+
+
+/* CREO Q ESTO AGREGUE */
+@media (min-width: 992px) {
+  .intro {
+    display: flex; /* Esto organiza los hijos (left y right) en fila */
+  }
+
+  .intro-left {
+    width: 60%;
+    position: relative;
+  }
+
+  .intro-right {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .intro-img {
+    width: 100%;
+    margin-bottom: 1px;
+  }
+
+  .image-container img {
+    display: block;  /* Esto hace que cada imagen se apile una debajo de la otra */
+    width: 100%;     /* Asegura que las imágenes ocupen el ancho completo del contenedor */
+    margin-bottom: 1px; /* Espacio entre las imágenes */
+  }
+}
+
+
+
+.footer {
+   background-color: rgb(172, 53, 15); /* color de la parte bieeeen de abajo */
+}
+
+
+
+.mbt{
+  padding-top: 2rem;
+}
+
+.mbt1{
+  padding-top: 1.25rem;
+}
+
+
+a.link{
+  color: rgb(255, 255, 255); /* color de la letra de los links */
+}
+
+a.link:hover{
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.section-content{
+  font-family: 'Segoe UI' !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 28px !important;
+}

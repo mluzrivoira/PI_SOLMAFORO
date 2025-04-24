@@ -1,0 +1,136 @@
+{% extends "proyectowebapp/base.html" %}
+{% load static %} <!-- importar los contenidos -->
+
+{% block content %} <!-- contenido cambiante en las distintas paginas -->
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos recibidos por MQTT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 0;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .verde { background-color: #00FF00; color: white; padding: 5px; border-radius: 5px; }
+        .amarillo { background-color: #FFFF00; color: black; padding: 5px; border-radius: 5px; }
+        .naranja { background-color: #FFA500; color: white; padding: 5px; border-radius: 5px; }
+        .rojo { background-color: #FF0000; color: white; padding: 5px; border-radius: 5px; }
+        .violeta { background-color: #8B00FF; color: white; padding: 5px; border-radius: 5px; }
+
+        .temp-1 { background-color: rgb(83, 244, 52); color: black; padding: 5px; border-radius: 5px; }
+        .temp-2 { background-color: rgb(84, 175, 58); color: black; padding: 5px; border-radius: 5px; }
+        .temp-3 { background-color: rgb(35, 115, 18); color: black; padding: 5px; border-radius: 5px; }
+        .temp-4 { background-color: rgb(247, 229, 70); color: white; padding: 5px; border-radius: 5px; }
+        .temp-5 { background-color: rgb(243, 164, 47); color: white; padding: 5px; border-radius: 5px; }
+
+        table {
+            width: 90%;
+            margin: 0 auto 60px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        canvas {
+            display: block;
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="page-section">
+        <div class="container">
+            <h1>Últimas Mediciones Recibidas</h1>
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha y Hora</th>
+                    <th>Ubicación</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Temperatura (°C)</th>
+                    <th>Nivel de Radiación</th>
+                    <th>UV</th>
+                </tr>
+                {% for medicion in mediciones %}
+                <tr>
+                    <td>{{ medicion.ubicacion_id }}</td>
+                    <td>{{ medicion.fecha_hora }}</td>
+                    <td>{{ medicion.ubicacion }}</td>
+                    <td>{{ medicion.latitud }}</td>
+                    <td>{{ medicion.longitud }}</td>
+                    <td>
+                        <span class="{{ medicion.color_temperatura }}">{{ medicion.temperatura }}</span>
+                    </td>
+                    <td>
+                        {% if medicion.color_uv == "Verde" %}
+                            Bajo
+                        {% elif medicion.color_uv == "Amarillo" %}
+                            Moderado
+                        {% elif medicion.color_uv == "Naranja" %}
+                            Alto
+                        {% elif medicion.color_uv == "Rojo" %}
+                            Muy Alto
+                        {% elif medicion.color_uv == "Violeta" %}
+                            Extremo
+                        {% else %}
+                            Desconocido
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if medicion.color_uv == "Verde" %}
+                            <span class="verde">{{ medicion.uv }}</span>
+                        {% elif medicion.color_uv == "Amarillo" %}
+                            <span class="amarillo">{{ medicion.uv }}</span>
+                        {% elif medicion.color_uv == "Naranja" %}
+                            <span class="naranja">{{ medicion.uv }}</span>
+                        {% elif medicion.color_uv == "Rojo" %}
+                            <span class="rojo">{{ medicion.uv }}</span>
+                        {% elif medicion.color_uv == "Violeta" %}
+                            <span class="violeta">{{ medicion.uv }}</span>
+                        {% else %}
+                            Desconocido
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <!-- Gráficos -->
+            <canvas id="graficoUV" width="800" height="400"></canvas>
+            <canvas id="graficoTemperatura" width="800" height="400"></canvas>
+            <script>
+                const mediciones = {{ mediciones|safe|json_script:"datosUV" }};
+            </script>
+        </div>
+    </section>
+
+    <!-- Librería Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>
+
+{% endblock %} <!-- fin del contenido cambiante en las distintas paginas -->
