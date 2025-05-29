@@ -3,19 +3,23 @@
 
 {% block content %} <!-- contenido cambiante en las distintas paginas -->
 
+<title>Mapa</title>
 
-<section class="page-section">
-    <div class="container">
-      <div class="d-flex justify-content-center">
-        <div style="width: 120%; max-width: 800px;">
-          {{ mapa|safe }}
+<section class="page-sectionmapa">
+  <div class="container">
+    <div class="d-flex justify-content-center">
+      <div class="map-wrapper">
+        {{ mapa|safe }}
+
+        <div class="text-center mt-4">
+          <img src="{% static 'proyectowebapp/img/01_IndiceUV.png' %}" 
+               alt="referencia" 
+               class="img-fluid img-indiceuv">
         </div>
       </div>
-  
-      <div class="text-center mt-4">
-        <img src="{% static 'proyectowebapp/img/referencia.png' %}" alt="referencia" class="img-fluid" style="max-height: 180px;">
-      </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
 {% endblock %} <!-- fin del contenido cambiante en las distintas paginas -->

@@ -40,12 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'proyectowebapp', #agrego la app que cree
+    'import_export',
 ]
 
 # Configuración MQTT  AGREGUE ESTO
 MQTT_SERVER = 'test.mosquitto.org'  # Puedes usar 'localhost' si es local
 MQTT_PORT = 1883
-MQTT_TOPIC = 'solmaforosdatos'
+MQTT_TOPIC = 'marialuzrivoira_PI'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

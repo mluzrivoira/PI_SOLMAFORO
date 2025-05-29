@@ -1,3 +1,4 @@
+
 import paho.mqtt.client as mqtt
 import json
 from .models import Medicion
@@ -9,7 +10,7 @@ import threading
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Conectado correctamente al broker MQTT")
-        client.subscribe("solmaforosdatoss")
+        client.subscribe("marialuzrivoira_PI")
     else:
         print(f"Error al conectar: Código {rc}")
 
@@ -29,21 +30,11 @@ def obtener_color_uv(uv):
 ultima_vez = time.time()
 tiempo_limite = 60 # Tiempo en segundos para el watchdog
 
-def obtener_color_temperatura(temperatura):
-    if 17 <= temperatura <= 23.99:
-        return "temp-1"
-    elif 24 <= temperatura <= 26.99:
-        return "temp-2"
-    elif 27 <= temperatura <= 30.99:
-        return "temp-3"
-    elif 31 <= temperatura <= 35.99:
-        return "temp-4"
-    else:
-        return "temp-5"
-
 
 # Función de callback cuando se recibe un mensaje MQTT
 def on_message(client, userdata, msg):
+    global ultima_vez
+    ultima_vez = time.time()
     mensaje = msg.payload.decode()
     print(f"Mensaje recibido: {mensaje}")
     
@@ -55,12 +46,13 @@ def on_message(client, userdata, msg):
         ubicacion = datos.get("ubicacion", "Desconocida")
         temperatura = datos.get("temperatura", 0.0)
         uv = datos.get("uv", 0.0)
+        uv = int(round(uv,0))
         latitud = datos.get("latitud", 0.0)
         longitud = datos.get("longitud", 0.0)
 
         # Calcular el color según el índice UV
         color_uv = obtener_color_uv(uv)
-        color_temperatura = obtener_color_temperatura(temperatura)
+        
         # Guardar la medición en la base de datos
         medicion = Medicion(
             ubicacion_id=ubicacion_id,
@@ -70,7 +62,6 @@ def on_message(client, userdata, msg):
             latitud=latitud,
             longitud=longitud,
             color_uv=color_uv,  # Guardar el color calculado
-            color_temperatura=color_temperatura,  # Guardar el color calculado
         )
         medicion.save()
         

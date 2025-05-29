@@ -3,7 +3,7 @@
 <head>
 
     {% load static %}
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap -->
     <link href="{% static 'proyectowebapp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -15,40 +15,43 @@
 
     <!-- Styles -->
     <link href="{% static 'proyectowebapp/css/solmaforo.css' %}" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
 </head>
 
 <body>
 
-  <div class="text-center d-none d-lg-block">
-    <img src="{% static 'proyectowebapp/img/00_Solmaforos_Mesa de trabajo 1 copia.png' %}" alt="Solmaforo Logo" class="img-fluid" style="max-height: 180px;">
+  <div class="text-center">
+    <img src="{% static 'proyectowebapp/img/Logo.png' %}" 
+         alt="Solmaforo Logo" 
+         class="img-fluid logo-espaciado">
   </div>
 
 
  <!-- Navegacion barra -->
- <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="{% url 'home'%}">SOLMÁFOROS CÓRDOBA</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item {% if request.path == '/' %}active{% endif %} px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'home'%}">Solmáforo</a>
-          </li>
-          <li class="nav-item {% if request.path == '/indiceuv' %}active{% endif %} px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'indiceuv'%}">índice UV</a>
-          </li>
-          <li class="nav-item {% if request.path == '/importancia' %}active{% endif %} px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'importancia'%}">Importancia</a>
-          </li>
-          <li class="nav-item {% if request.path == '/graficos' %}active{% endif %} px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'graficos'%}">Gráficos</a>
-          </li>
-        </ul>
-      </div>
+ <nav class="navbar navbar-expand navbar-dark py-lg-4" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="{% url 'home'%}"></a>
+
+
+    <div class="navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav d-flex flex-row justify-content-center w-100">
+        <li class="nav-item {% if request.path == '/' %}active{% endif %} px-2">
+          <a class="nav-link text-uppercase text-expanded" href="{% url 'home'%}">Solmáforo</a>
+        </li>
+        <li class="nav-item {% if request.path == '/indiceuv' %}active{% endif %} px-2">
+          <a class="nav-link text-uppercase text-expanded" href="{% url 'indiceuv'%}">Índice UV</a>
+        </li>
+        <li class="nav-item {% if request.path == '/importancia' %}active{% endif %} px-2">
+          <a class="nav-link text-uppercase text-expanded" href="{% url 'importancia'%}">Importancia</a>
+        </li>
+        <li class="nav-item {% if request.path == '/graficos' %}active{% endif %} px-2">
+          <a class="nav-link text-uppercase text-expanded" href="{% url 'graficos'%}">Gráficos</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <!-- contenido cambiante en las distintas paginas -->
   {% block content %}
@@ -77,12 +80,11 @@
 	            <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
 	          </span>
 	        </a>
-	    </p>
-        <p class="m-0 mbt">
-        	<a href="sample.html" class="link">Universidad Nacional de Cordoba</a> ·
-        	<a href="sample.html" class="link">Facultad de Ciencias Exactas, Fisicas y Naturales</a> ·
-        	<a href="sample.html" class="link">FCEFYN</a>
-		</p>
+          <p class="m-0 mbt">
+            <a href="https://www.unc.edu.ar" class="link" target="_blank">UNC</a> ·
+            <a href="https://www.fcefyn.unc.edu.ar" class="link" target="_blank">Facultad de Ciencias Exactas, Físicas y Naturales</a> ·
+            <a href="https://fcefyn.unc.edu.ar/facultad/secretarias/academica/departamentos/bioingenieria/proyecto-integrador-2/" class="link" target="_blank">PI</a>
+          </p>
         <p class="m-0 mbt1">&copy; PI SOLMAFOROS</p>
       </div>
 	</footer>

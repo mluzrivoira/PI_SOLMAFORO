@@ -1,12 +1,13 @@
 from django.shortcuts import render, HttpResponse
 from .models import Location, Medicion #agregue esto
 import folium
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 from folium.plugins import BeautifyIcon 
 from collections import defaultdict
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Max, Q
+import pandas as pd
 
 # Create your views here.
 def home(request): 
@@ -59,7 +60,7 @@ def indiceuv(request):
         # Crear ícono bonito con BeautifyIcon
         icono = BeautifyIcon(
             icon_shape='marker',
-            number=f"{medicion.uv:.1f}",  # Muestra el valor UV dentro del ícono
+            number=str(int(medicion.uv)),  # Muestra el valor UV dentro del ícono
             border_color=color_uv_hex,
             background_color=color_uv_hex,
             text_color='white'
@@ -89,22 +90,58 @@ def importancia(request):
 
 
 def graficos(request):
-    mediciones = Medicion.objects.all().order_by('-fecha_hora')[:20]  # Mostrar las últimas 20 mediciones
-    datos_json = json.dumps([
-        {
-            "ubicacion_id": m.ubicacion_id,
-            "fecha_hora": m.fecha_hora.strftime("%Y-%m-%d %H:%M:%S"),
-            "ubicacion": m.ubicacion,
-            "latitud": m.latitud,
-            "longitud": m.longitud,
-            "temperatura": m.temperatura,
-            "uv": m.uv,
-            "color_uv": m.color_uv,
-            "color_temperatura": m.color_temperatura
-        } for m in mediciones
-    ])
+    mediciones = Medicion.objects.all().order_by('-fecha_hora')[:144]  # Mostrar las últimas 20 mediciones
+
+    datos_unicos = []
+    ya_vistos = set()
+
+    for m in mediciones:
+        clave = (m.ubicacion_id, m.uv, m.temperatura, m.fecha_hora.strftime("%Y-%m-%d %H:%M"))
+        if clave not in ya_vistos:
+            ya_vistos.add(clave)
+            datos_unicos.append({
+                "ubicacion_id": m.ubicacion_id,
+                "fecha_hora": m.fecha_hora.strftime("%Y-%m-%d %H:%M:%S"),
+                "ubicacion": m.ubicacion,
+                "latitud": m.latitud,
+                "longitud": m.longitud,
+                "temperatura": m.temperatura,
+                "uv": m.uv,
+                "color_uv": m.color_uv,
+            })
+
+    datos_json = json.dumps(datos_unicos)
 
     return render(request, 'proyectowebapp/graficos.html', {
-        'mediciones': mediciones,
+        'mediciones': datos_unicos,
         'datos_json': datos_json
     })
+
+def exportar_excel(request):
+    mediciones = Medicion.objects.all().order_by('-fecha_hora')
+
+    # Filtrar duplicados por minuto, ubicación, uv y temperatura
+    vistos = set()
+    datos_filtrados = []
+
+    for m in mediciones:
+        clave = (m.ubicacion_id, m.uv, m.temperatura, m.fecha_hora.strftime("%Y-%m-%d %H:%M"))
+        if clave not in vistos:
+            vistos.add(clave)
+            datos_filtrados.append({
+                'ubicacion_id': m.ubicacion_id,
+                'ubicacion': m.ubicacion,
+                'temperatura': m.temperatura,
+                'uv': m.uv,
+                'fecha_hora': m.fecha_hora.replace(tzinfo=None)  # Quitar timezone
+            })
+
+    df = pd.DataFrame(datos_filtrados)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=medicionesSOLMAFOROSCBA.xlsx'
+
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False)
+
+    return response

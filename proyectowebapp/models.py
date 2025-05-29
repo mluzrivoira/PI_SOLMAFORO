@@ -27,7 +27,7 @@ class Medicion(models.Model):
     longitud = models.FloatField(default=0)
     fecha_hora = models.DateTimeField(auto_now_add=True)  # Fecha y hora de recepción del mensaje
     color_uv = models.CharField(max_length=20, default='yellow')  # Nuevo campo para almacenar el color
-    color_temperatura = models.CharField(max_length=20, null=True, blank=True)  # ¡Agregado!
+    
 
 
     def __str__(self):

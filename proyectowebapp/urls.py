@@ -7,4 +7,5 @@ urlpatterns = [
     path('indiceuv', indiceuv, name="indiceuv"),
     path('importancia', importancia, name="importancia"),
     path('graficos', graficos, name="graficos"),
+    path('descargar-excel/', views.exportar_excel, name='descargar_excel'),
 ]
