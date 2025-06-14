@@ -8,6 +8,9 @@ from collections import defaultdict
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Max, Q
 import pandas as pd
+import pytz
+arg_tz = pytz.timezone("America/Argentina/Buenos_Aires")
+
 
 # Create your views here.
 def home(request): 
@@ -90,7 +93,7 @@ def importancia(request):
 
 
 def graficos(request):
-    mediciones = Medicion.objects.all().order_by('-fecha_hora')[:144]  # Mostrar las últimas 20 mediciones
+    mediciones = Medicion.objects.all().order_by('-fecha_hora')[:162]  # Mostrar las últimas 20 mediciones
 
     datos_unicos = []
     ya_vistos = set()
@@ -101,7 +104,7 @@ def graficos(request):
             ya_vistos.add(clave)
             datos_unicos.append({
                 "ubicacion_id": m.ubicacion_id,
-                "fecha_hora": m.fecha_hora.strftime("%Y-%m-%d %H:%M:%S"),
+                "fecha_hora": m.fecha_hora.astimezone(arg_tz).strftime("%Y-%m-%d %H:%M:%S"),
                 "ubicacion": m.ubicacion,
                 "latitud": m.latitud,
                 "longitud": m.longitud,
@@ -133,7 +136,7 @@ def exportar_excel(request):
                 'ubicacion': m.ubicacion,
                 'temperatura': m.temperatura,
                 'uv': m.uv,
-                'fecha_hora': m.fecha_hora.replace(tzinfo=None)  # Quitar timezone
+                'fecha_hora': m.fecha_hora.astimezone(arg_tz).replace(tzinfo=None)
             })
 
     df = pd.DataFrame(datos_filtrados)

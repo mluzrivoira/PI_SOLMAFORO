@@ -28,7 +28,7 @@ def obtener_color_uv(uv):
     else:
         return "Violeta"
 ultima_vez = time.time()
-tiempo_limite = 60 # Tiempo en segundos para el watchdog
+tiempo_limite = 2000 # Tiempo en segundos para el watchdog
 
 
 # Función de callback cuando se recibe un mensaje MQTT
